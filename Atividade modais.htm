@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Atividade — Modais de Transporte (Banco 50 → Sorteio 15)</title>
+  <style>
+    :root{
+      --accent:#0073a8; --bg:#f6f8fb; --card:#ffffff; --muted:#6b7280;
+      --success:#16a34a; --danger:#dc2626;
+    }
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; background:var(--bg); margin:0; color:#111}
+    header{background:linear-gradient(90deg,var(--accent),#005f88); color:#fff; padding:16px 18px; display:flex; align-items:center; gap:16px}
+    header img{height:54px}
+    header .title{font-size:18px; font-weight:700}
+    main{max-width:1100px;margin:18px auto;padding:14px}
+    .card{background:var(--card); border-radius:10px; padding:16px; box-shadow:0 6px 18px rgba(16,24,40,0.06); margin-bottom:14px}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    input[type="text"]{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:600;cursor:pointer}
+    button.secondary{background:#e6eef6;color:var(--accent);border:1px solid #cfe6f6}
+    .muted{color:var(--muted)}
+    .quiz-question{margin-bottom:14px;padding:12px;border-radius:8px;border:1px dashed #e6e9ef}
+    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .option{background:#f8fafc;padding:8px;border-radius:7px;cursor:pointer;border:1px solid transparent}
+    .option:hover{border-color:#d0e8fb}
+    .option.selected{background:#e6f6ff;border-color:#a9ddff}
+    .progress{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#00a0d6); width:0%}
+    .timer{font-weight:700;color:#0f172a}
+    .result-large{font-size:20px;font-weight:800}
+    .medal{display:inline-block;padding:8px 12px;border-radius:999px;color:#fff;margin-left:10px}
+    .gold{background:#f59e0b} .silver{background:#9ca3af} .bronze{background:#b45309}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:720px){.grid-2{grid-template-columns:1fr}}
+    .dnd-area{padding:8px;border:2px dashed #e6e9ef;border-radius:8px;min-height:60px}
+    .draggable{padding:8px;border-radius:6px;background:#fff;border:1px solid #e6e9ef;margin:6px 0;cursor:grab}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://www.senairs.org.br/sites/default/files/styles/scale_sm/public/logos/avatares_sistema_fiergs_senai_cor.png?itok=fuuHGGm3" alt="Logo SENAI">
+    <div>
+      <div class="title">Prof. Luiz Eduardo Peixoto — Atividade: Modais de Transporte</div>
+      <div style="font-size:13px;opacity:.95">Curso: Assistente de Operações em logística  — Tempo estimado: 20 minutos</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <div>
+          <h2 style="margin:0 0 6px 0">Atividade interativa — Modais de Transporte</h2>
+          <div class="muted">Banco de 50 questões → sorteio aleatório de 15 perguntas a cada início.</div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted" style="font-size:12px">Referência: material de apoio do curso .</div>
+          <div style="font-size:12px;margin-top:6px" class="muted"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <label for="studentName">Nome do(a) aluno(a)</label>
+      <input type="text" id="studentName" placeholder="Seu nome completo...">
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <button id="startBtn">Iniciar atividade (sorteio de 15 questões)</button>
+        <button class="secondary" id="exportPdfBtn">Exportar resultado (PDF)</button>
+        <div style="margin-left:auto;text-align:right">
+          <div class="muted" style="font-size:12px">Tempo restante</div>
+          <div class="timer" id="timerDisplay">20:00</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reading" class="card" style="display:none">
+      <h3>Resumo — Modais de Transporte</h3>
+      <p class="muted">Modais comuns: <strong>rodoviário, ferroviário, aquaviário (marítimo/fluvial), aéreo e dutoviário</strong>. A escolha considera custo, velocidade, segurança, capacidade e rota. Integrações: intermodal (contratos separados) e multimodal (um único contrato cobrindo vários modais). Use este resumo e os slides de referência para responder.</p>
+      <div class="grid-2" style="margin-top:10px">
+        <div><h4>Rodoviário</h4><p class="muted">Flexível, porta-a-porta; adequado para curtas e médias distâncias; atenção à condição das rodovias e riscos de roubo.</p></div>
+        <div><h4>Ferroviário</h4><p class="muted">Eficiente em grandes volumes e longas distâncias; exige terminais e transbordo para porta-a-porta.</p></div>
+        <div><h4>Aquaviário</h4><p class="muted">Ideal para granéis e cargas volumosas; custo por tonelada baixo; mais lento e exige portos/terminals.</p></div>
+        <div><h4>Aéreo</h4><p class="muted">Muito rápido; alto custo; indicado para cargas de alto valor e urgentes.</p></div>
+        <div style="grid-column:1/-1"><h4>Dutoviário</h4><p class="muted">Eficiente para fluidos (petróleo, gás); investimento inicial alto e pouca flexibilidade de rota.</p></div>
+      </div>
+    </section>
+
+    <section id="quiz" class="card" style="display:none">
+      <h3>Quiz — Modais de Transporte</h3>
+      <div class="progress" style="margin-bottom:10px"><i id="progressBar"></i></div>
+      <form id="quizForm"></form>
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <button id="prevQ" class="secondary" style="display:none">Anterior</button>
+        <button id="nextQ" class="secondary">Próxima</button>
+        <button id="submitBtn" style="margin-left:auto;background:#059669">Enviar respostas</button>
+      </div>
+    </section>
+
+    <section id="result" class="card" style="display:none">
+      <div>
+        <div class="result-large" id="scoreText"></div>
+        <div style="margin-top:10px" id="medalWrap"></div>
+        <div style="margin-top:12px" id="detailedFeedback"></div>
+      </div>
+    </section>
+
+    <footer style="text-align:center;color:var(--muted);font-size:13px;margin-top:8px">
+      Desenvolvido para o curso Assistente de Operações em Logística.
+    </footer>
+  </main>
+
+  <!-- Dependência para PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    // -----------------------
+    // Banco de 50 questões
+    // Cada objeto:
+    // type: 'mcq' | 'match' | 'calc'
+    // For mcq: choices: [...], correct: 'texto correto'
+    // For match: pairs: {left: right, ...}
+    // For calc: formula: {...}, answer: number
+    // -----------------------
+    const bank = [
+      {type:'mcq', q:'Qual modal é mais indicado para transporte de grande volume de minério em longas distâncias com baixo custo?', choices:['Rodoviário','Aéreo','Ferroviário','Dutoviário','Correio'], correct:'Ferroviário', explanation:'Ferroviário é eficiente para grandes volumes a baixo custo por tonelada.'},
+      {type:'mcq', q:'Qual modal possui maior velocidade média e é indicado para cargas urgentes de alto valor?', choices:['Aquaviário','Aéreo','Ferroviário','Rodoviário','Dutoviário'], correct:'Aéreo', explanation:'Modal aéreo é o mais rápido, recomendado para urgência.'},
+      {type:'mcq', q:'Qual modal é mais afetado por condições das estradas e por roubo de carga?', choices:['Ferroviário','Rodoviário','Aéreo','Dutoviário','Aquaviário'], correct:'Rodoviário', explanation:'Rodovias no Brasil apresentam riscos e roubos são mais comuns.'},
+      {type:'mcq', q:'Qual modal é ideal para transporte contínuo de óleo e gás?', choices:['Dutoviário','Rodoviário','Aéreo','Ferroviário','Aquaviário'], correct:'Dutoviário', explanation:'Dutos transportam fluidos com segurança e eficiência.'},
+      {type:'mcq', q:'Qual modal tem custo por tonelada mais baixo para longas distâncias marítimas?', choices:['Rodoviário','Aéreo','Aquaviário','Ferroviário','Dutoviário'], correct:'Aquaviário', explanation:'Transporte marítimo tem baixo custo por tonelada em longas rotas.'},
+      {type:'mcq', q:'A integração de modais sob um único contrato caracteriza:', choices:['Intermodal','Multimodal','Unimodal','Segmentado','Relacionado'], correct:'Multimodal', explanation:'Multimodal = um contrato cobrindo diferentes modais.'},
+      {type:'mcq', q:'O que é intermodalidade?', choices:['Uso de um único modal','Uso de vários modais com contratos distintos','Transporte por dutos apenas','Serviço porta-a-porta exclusivo','Nenhuma das anteriores'], correct:'Uso de vários modais com contratos distintos', explanation:'Intermodal envolve mais de um modal com contratos separados.'},
+      {type:'mcq', q:'Qual modal exige terminais especializados e transbordo para porta-a-porta?', choices:['Rodoviário','Ferroviário','Aéreo','Aquaviário','Dutoviário'], correct:'Aquaviário', explanation:'Portos e terminais são necessários para aquaviário.'},
+      {type:'mcq', q:'Para cargas muito volumosas e não urgentes, o modal mais econômico costuma ser:', choices:['Aéreo','Aquaviário','Rodoviário','Courier','Helicóptero'], correct:'Aquaviário', explanation:'Aquaviário é econômico para volumes grandes.'},
+      {type:'mcq', q:'Uma vantagem do modal rodoviário é:', choices:['Baixo custo para longas distâncias','Alta velocidade comparado ao aéreo','Flexibilidade porta-a-porta','Necessidade de terminais portuários','Nenhuma'], correct:'Flexibilidade porta-a-porta', explanation:'Rodoviário permite entrega direta ao destinatário.'},
+
+      {type:'mcq', q:'Qual modal é mais indicado para entrega “just in time” em cadeia de suprimentos?', choices:['Aquaviário','Aéreo','Ferroviário','Dutoviário','Cabotagem'], correct:'Aéreo', explanation:'Aéreo permite reposição rápida, útil para JIT.'},
+      {type:'mcq', q:'Qual modal apresenta menor risco de congestionamento em vias?', choices:['Rodoviário','Dutoviário','Aéreo','Aquaviário','Ferroviário'], correct:'Dutoviário', explanation:'Dutos operam independentes do tráfego rodoviário.'},
+      {type:'mcq', q:'O que é cabotagem?', choices:['Transporte entre países','Transporte marítimo entre portos do mesmo país','Transporte aéreo doméstico','Transporte por duto','Transporte rodoviário interestadual'], correct:'Transporte marítimo entre portos do mesmo país', explanation:'Cabotagem é navegação costeira doméstica.'},
+      {type:'mcq', q:'Qual modal tende a exigir menor embalagem por proteger melhor a carga?', choices:['Aéreo','Dutoviário','Aquaviário','Ferroviário','Rodoviário'], correct:'Aquaviário', explanation:'Para certas cargas, o aquaviário permite menos embalagens, porém depende do tipo.'},
+      {type:'mcq', q:'Em logística internacional, o termo "Incoterms" está ligado a:', choices:['Regras de embalagem','Termos para contratos de transporte','Padrões de armazenamento','Procedimentos de alfândega','Tipos de contêiner'], correct:'Termos para contratos de transporte', explanation:'Incoterms definem responsabilidades vendedor/comprador no transporte.'},
+
+      {type:'mcq', q:'Um benefício do modal ferroviário é:', choices:['Entrega porta-a-porta','Baixo custo por tonelada','Alta velocidade comparada ao aéreo','Baixa necessidade de terminais','Transporte de passageiros'], correct:'Baixo custo por tonelada', explanation:'Ferrovia tem custo por tonelada competitivo em longas distâncias.'},
+      {type:'mcq', q:'Qual é a principal limitação do modal dutoviário?', choices:['Baixo investimento inicial','Pouca flexibilidade de rota','Alto custo operacional diário','Transporte de pessoas','Alta velocidade'], correct:'Pouca flexibilidade de rota', explanation:'Dutos são fixos e específicos para tipos de produto.'},
+      {type:'mcq', q:'Qual modal costuma apresentar o menor índice de avarias em cargas quando bem acondicionado?', choices:['Rodoviário','Aéreo','Aquaviário','Dutoviário','Ferroviário'], correct:'Dutoviário', explanation:'Dutos transmitem fluidos de forma contínua com baixo risco de avaria física.'},
+      {type:'mcq', q:'Para economizar em frete internacional de mercadorias volumosas, empresas preferem:', choices:['Aéreo','Aquaviário','Rodoviário','Courier','Dutoviário'], correct:'Aquaviário', explanation:'Marítimo reduz custo por volume/tonelada em rotas internacionais.'},
+      {type:'mcq', q:'O que é "multimodalidade" em logística?', choices:['Uso de vários modais com um único contrato','Uso de um único modal apenas','Terceirização do transporte','Transporte municipal','Sistema de armazenagem'], correct:'Uso de vários modais com um único contrato', explanation:'Multimodal reúne diferentes modais sob um único contrato.'},
+
+      {type:'mcq', q:'Qual fator NÃO é determinante na escolha do modal?', choices:['Velocidade','Custo','Formato da fatura do fornecedor','Segurança','Capacidade'], correct:'Formato da fatura do fornecedor', explanation:'Formato da fatura não determina escolha do modal.'},
+      {type:'mcq', q:'Qual modal normalmente exige mais seguro relativo ao valor da carga?', choices:['Aquaviário','Aéreo','Rodoviário','Ferroviário','Dutoviário'], correct:'Aéreo', explanation:'Devido ao alto valor e custo, seguro aéreo tende a ser elevado.'},
+      {type:'mcq', q:'Qual alternativa representa um benefício da intermodalidade?', choices:['Redução de transbordos','Melhor aproveitamento do melhor de cada modal','Aumento de custo','Proibição de contêineres','Limitação de rotas'], correct:'Melhor aproveitamento do melhor de cada modal', explanation:'Intermodal permite combinar vantagens de cada modal.'},
+      {type:'mcq', q:'Qual modal tem maior limitação em termos de horário/rotina por depender de janelas portuárias?', choices:['Aéreo','Aquaviário','Rodoviário','Dutoviário','Ferroviário'], correct:'Aquaviário', explanation:'Operações portuárias seguem janelas e marés.'},
+      {type:'mcq', q:'O que significa "frete por tonelada"?', choices:['Valor do frete dividido por distância','Custo por unidade de peso transportado','Preço do combustível','Tempo de transporte','Dimensão do veículo'], correct:'Custo por unidade de peso transportado', explanation:'Frete por tonelada é medida econômica comum.'},
+
+      {type:'mcq', q:'Qual modalidade é afetada por congestões em ferrovias e gargalos nos terminais?', choices:['Rodoviário','Ferroviário','Aéreo','Dutoviário','Aquaviário'], correct:'Ferroviário', explanation:'Ferrovia depende de terminais e pode enfrentar gargalos.'},
+      {type:'mcq', q:'Quando a mercadoria é perecível e necessita transporte rápido, a melhor opção é:', choices:['Aquaviário','Aéreo','Rodoviário','Ferroviário','Dutoviário'], correct:'Aéreo', explanation:'Perecíveis costumam usar modal aéreo pela rapidez.'},
+      {type:'mcq', q:'Qual modal costuma ter maior custo inicial de infraestrutura (ex.: construção)?', choices:['Rodoviário','Ferroviário','Aéreo','Aquaviário','Dutoviário'], correct:'Ferroviário', explanation:'Ferrovia e dutos exigem grande investimento inicial; ferroviário é destacado.'},
+      {type:'mcq', q:'O que é “last mile” na logística?', choices:['Primeira etapa do transporte','Etapa final de entrega até o cliente','Transporte intercontinental','Transporte de dutos','Transporte ferroviário apenas'], correct:'Etapa final de entrega até o cliente', explanation:'Last mile = entrega final ao consumidor.'},
+      {type:'mcq', q:'Qual modal costuma ser o preferido para entregas urbanas rápidas?', choices:['Aéreo','Rodoviário','Aquaviário','Dutoviário','Ferroviário'], correct:'Rodoviário', explanation:'Rodoviário (veículos urbanos) é usado em entregas last mile.'},
+
+      {type:'mcq', q:'Qual é uma vantagem da cabotagem em países com extensa costa?', choices:['Aumento do custo de frete','Redução do trânsito rodoviário em longas rotas internas','Aumento de roubos','Dificuldade de programação','Menor capacidade'], correct:'Redução do trânsito rodoviário em longas rotas internas', explanation:'Cabotagem reduz necessidade de longos trajetos rodoviários.'},
+      {type:'mcq', q:'O termo "FCL" em transporte marítimo refere-se a:', choices:['Less than Container Load','Full Container Load','Freight Cost Limit','Forwarder Carrier List','Ferry Cargo Line'], correct:'Full Container Load', explanation:'FCL = contêiner completo.'},
+      {type:'mcq', q:'O que é "LCL" em frete marítimo?', choices:['Load Cargo Limit','Less than Container Load','Logistics Cargo Line','Local Cargo List','Large Container Load'], correct:'Less than Container Load', explanation:'LCL = carga consolidada menor que contêiner.'},
+      {type:'mcq', q:'Qual é a vantagem de usar contêineres padronizados?', choices:['Aumentar transbordo','Padronização facilita manuseio e integração entre modais','Reduzir capacidade','Impedir multimodalidade','Aumentar custo de transporte'], correct:'Padronização facilita manuseio e integração entre modais', explanation:'Contêineres padronizam carga, simplificando transbordos.'},
+      {type:'mcq', q:'Qual instrumento regula responsabilidades e obrigações em transporte internacional?', choices:['Incoterms','Tabela de fretes local','Manual de armazenagem','CBO','Código de Trânsito'], correct:'Incoterms', explanation:'Incoterms definem obrigações entre vendedor/comprador.'},
+
+      {type:'match', q:'Associe cada modal à sua vantagem típica:', pairs:{ 'Rodoviário':'Flexibilidade porta-a-porta', 'Ferroviário':'Baixo custo por tonelada em longas distâncias', 'Aéreo':'Velocidade de entrega'}},
+      {type:'match', q:'Associe cada termo à definição correta:', pairs:{ 'FCL':'Contêiner completo', 'LCL':'Carga consolidada (menos de um contêiner)', 'Cabotagem':'Navegação costeira doméstica'}},
+      {type:'mcq', q:'Qual modal é menos indicado para cargas de alto valor dadas as longas janelas operacionais?', choices:['Aéreo','Aquaviário','Rodoviário','Ferroviário','Dutoviário'], correct:'Aquaviário', explanation:'Aquaviário é mais lento; cargas de alto valor preferem aéreo para urgência.'},
+      {type:'mcq', q:'Em um transporte multimodal, quem organiza a cadeia inteira normalmente é o:', choices:['Contratante do caminhão','Operador logístico multimodal','Motorista','Reparador de contêiner','Agente do seguro'], correct:'Operador logístico multimodal', explanation:'Operador multimodal coordena diferentes etapas.'},
+      {type:'mcq', q:'Qual alternativa é uma desvantagem do transporte aéreo?', choices:['Alta velocidade','Alto custo','Boa segurança','Rápido despacho','Ideal para perecíveis'], correct:'Alto custo', explanation:'Aéreo é rápido porém caro.'},
+
+      {type:'calc', q:'Se um contêiner de 12,05 m comporta caixas de 0,30 m em comprimento, quantas caixas cabem (inteiro)?', formula:{container:12.05, box:0.30}, answer:40, explanation:'12.05/0.30 ≈ 40,16 → 40 caixas.'},
+      {type:'calc', q:'Um caminhão carrega 20 toneladas por viagem. Para transportar 95 toneladas, quantas viagens inteiras são necessárias?', formula:{total:95, cap:20}, answer:5, explanation:'95/20 = 4,75 → 5 viagens (arredondar para cima).'},
+      {type:'calc', q:'Se um navio reduz custo por tonelada em 60% comparado a rodovia e o frete rodoviário é R$100/t, qual é o custo aproximado por tonelada no navio?', formula:{road:100, reduction:0.6}, answer:40, explanation:'100*(1-0.6)=40.'},
+
+      {type:'mcq', q:'Qual modal demanda mais planejamento de janelas (time slots) em terminais?', choices:['Aéreo','Aquaviário','Rodoviário','Dutoviário','Ferroviário'], correct:'Aquaviário', explanation:'Portos operam com janelas, marés e horários definidos.'},
+      {type:'mcq', q:'Quando se fala em "transporte porta-a-porta", geralmente pensa-se em:', choices:['Aéreo','Rodoviário','Ferroviário','Dutoviário','Cabotagem'], correct:'Rodoviário', explanation:'Rodoviário permite entrega direto no endereço do cliente.'},
+      {type:'mcq', q:'Qual modal é mais recomendado para transporte de automóveis entre cidades por ter infraestrutura dedicada?', choices:['Dutoviário','Ferroviário','Aéreo','Aquaviário','Rodoviário'], correct:'Ferroviário', explanation:'Trens-gôndola e vagões específicos são usados para veículos em longas rotas.'},
+      {type:'mcq', q:'Qual modal geralmente apresenta maior lead time (tempo total)?', choices:['Aéreo','Rodoviário','Aquaviário','Courier','Helicóptero'], correct:'Aquaviário', explanation:'Marítimo tem tempos maiores, mas menor custo.'},
+      {type:'mcq', q:'Para reduzir emissões de CO₂ por tonelada-km, empresas tendem a preferir:', choices:['Aéreo','Rodoviário','Ferroviário','Dutoviário','Caminhonete leve'], correct:'Ferroviário', explanation:'Ferrovia tem menor emissão por tonelada-km comparada ao rodoviário.'},
+
+      {type:'mcq', q:'Qual é uma medida para aumentar eficiência modal multimodal?', choices:['Aumentar apenas frota rodoviária','Melhorar integração entre terminais','Eliminar contratos','Diminuir uso de contêineres','Proibir transbordo'], correct:'Melhorar integração entre terminais', explanation:'Integração reduz tempo e custo de transbordo.'},
+      {type:'mcq', q:'Qual modal é menos flexível em rotas e horários por depender de infraestrutura fixa?', choices:['Rodoviário','Dutoviário','Aéreo','Courier','Motocicleta'], correct:'Dutoviário', explanation:'Dutos são fixos e não flexíveis em rota.'},
+      {type:'mcq', q:'Qual é uma boa prática ao escolher modal para carga de alto custo e pequena massa?', choices:['Escolher aquaviário','Escolher aéreo','Escolher rodoviário por padrão','Escolher dutos','Evitar seguro'], correct:'Escolher aéreo', explanation:'Cargas de alto valor/baixo volume costumam ir por via aérea.'},
+      {type:'mcq', q:'O que favorece a escolha do modal ferroviário?', choices:['Pequenos lotes urgentes','Alta densidade de demanda e grandes volumes','Entrega porta-a-porta em áreas remotas','Transporte de líquidos com duto','Entregas expressas'], correct:'Alta densidade de demanda e grandes volumes', explanation:'Ferrovia é eficiente quando volume e distância justificam.'},
+
+      {type:'match', q:'Associe risco/condição ao modal:', pairs:{ 'Rodoviário':'Roubo e condições de estrada', 'Aéreo':'Custo elevado', 'Aquaviário':'Dependência de terminais/portos'}},
+      {type:'match', q:'Associe característica a cada transporte:', pairs:{ 'Ferroviário':'Baixo custo por tonelada', 'Dutoviário':'Fluxo contínuo de líquidos', 'Rodoviário':'Entrega flexível'}},
+      {type:'mcq', q:'Qual modal costuma ser regulamentado por agências de aviação civil/porto/rodovias?', choices:['Apenas aéreo','Aéreo e aquaviário e rodoviário','Nenhum','Só ferroviário','Apenas dutoviário'], correct:'Aéreo e aquaviário e rodoviário', explanation:'Cada modal possui suas agências e normas regulatórias.'},
+      {type:'mcq', q:'Qual é o impacto do aumento do preço do combustível no modal rodoviário?', choices:['Redução de custo','Aumento direto do frete','Sem impacto','Diminuição do tempo de entrega','Melhoria de segurança'], correct:'Aumento direto do frete', explanation:'Combustível afeta custo operacional do caminhão.'},
+      {type:'mcq', q:'Qual modalidade é favorecida para grandes volumes entre regiões com pouca malha rodoviária?', choices:['Rodoviário','Ferroviário','Aéreo','Cabotagem','Motocicleta'], correct:'Ferroviário', explanation:'Ferrovia transporta grandes volumes mesmo em áreas com rodovias deficientes.'},
+
+      {type:'calc', q:'Um lote de 240 caixas é enviado em paletes de 16 caixas por palete. Quantos paletes são necessários?', formula:{total:240, perPallet:16}, answer:15, explanation:'240/16 = 15 paletes.'},
+      {type:'mcq', q:'Qual ação reduz risco de avarias no transporte aquaviário?', choices:['Não usar contêineres','Usar embalagens adequadas e contêineres selados','Aumentar velocidade do navio','Remover seguro','Evitar empilhamento'], correct:'Usar embalagens adequadas e contêineres selados', explanation:'Boas práticas diminuem riscos de avaria.'},
+      {type:'mcq', q:'Qual é o benefício de consolidar cargas LCL?', choices:['Aumentar custo unitário','Reduzir custo para pequenos embarcadores','Eliminar transbordo','Aumentar volume mínimo','Diminuir segurança'], correct:'Reduzir custo para pequenos embarcadores', explanation:'LCL permite embarcar menores volumes de forma econômica.'},
+      {type:'mcq', q:'O que influencia mais o custo total do transporte?', choices:['Tipo de embalagem apenas','Distância e modal escolhidos','Nome do remetente','Formato do pedido','Data de faturamento'], correct:'Distância e modal escolhidos', explanation:'Esses são fatores primários do custo.'},
+      {type:'mcq', q:'Qual modal tende a apresentar menor custo em rotas internas longas quando há ferrovia disponível?', choices:['Rodoviário','Ferroviário','Aéreo','Dutoviário','Motocicleta'], correct:'Ferroviário', explanation:'Ferrovia é competitivo em longas distâncias e grandes volumes.'}
+    ];
+
+    // -----------------------
+    // controle da atividade
+    // -----------------------
+    const TOTAL_TO_DRAW = 15;
+    let selectedQuestions = []; // indexes into bank
+    let sessionQuestions = []; // actual question objects (cloned)
+    let currentIdx = 0;
+    let answers = []; // user answers: for mcq -> chosen text, for match -> object, for calc -> number
+    let timerSec = 20 * 60;
+    let timerInterval = null;
+
+    const reading = document.getElementById('reading');
+    const quizSection = document.getElementById('quiz');
+    const resultSection = document.getElementById('result');
+    const quizForm = document.getElementById('quizForm');
+    const progressBar = document.getElementById('progressBar');
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    // helpers
+    function shuffleArray(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a }
+
+    function clone(obj){ return JSON.parse(JSON.stringify(obj)); }
+
+    // draw random 15 indexes each time start is clicked (option 1 behavior)
+    function drawQuestions(){
+      const idxs = bank.map((_,i)=>i);
+      shuffleArray(idxs);
+      selectedQuestions = idxs.slice(0, TOTAL_TO_DRAW);
+      sessionQuestions = selectedQuestions.map(i=>clone(bank[i]));
+      // initialize answers array
+      answers = new Array(sessionQuestions.length).fill(null);
+      // for mcq, we will shuffle choices at render and store shuffledChoices in the question object
+      sessionQuestions.forEach(q=>{
+        if(q.type === 'mcq'){
+          q.shuffledChoices = shuffleArray([...q.choices]);
+        } else if(q.type === 'match'){
+          // create right side shuffled order for display
+          q._left = Object.keys(q.pairs);
+          q._right = shuffleArray(Object.values(q.pairs));
+        }
+      });
+    }
+
+    // render question at index
+    function renderQuestion(idx){
+      currentIdx = idx;
+      quizForm.innerHTML = '';
+      const q = sessionQuestions[idx];
+      const wrapper = document.createElement('div'); wrapper.className='quiz-question';
+      wrapper.innerHTML = `<div><strong>Q${idx+1}.</strong> ${q.q}</div>`;
+      // MCQ
+      if(q.type === 'mcq'){
+        const optionsDiv = document.createElement('div'); optionsDiv.className='options';
+        q.shuffledChoices.forEach(choiceText=>{
+          const el = document.createElement('div'); el.className='option'; el.tabIndex=0;
+          el.innerText = choiceText;
+          if(answers[idx] === choiceText) el.classList.add('selected');
+          el.onclick = ()=> {
+            answers[idx] = choiceText;
+            optionsDiv.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+            el.classList.add('selected');
+          };
+          optionsDiv.appendChild(el);
+        });
+        wrapper.appendChild(optionsDiv);
+      }
+      // MATCH (drag & drop)
+      else if(q.type === 'match'){
+        const container = document.createElement('div'); container.className='grid-2';
+        const leftCol = document.createElement('div'); leftCol.innerHTML = '<h4>Itens</h4>';
+        q._left.forEach(key=>{
+          const item = document.createElement('div'); item.className='draggable'; item.innerText=key;
+          item.draggable = true;
+          item.addEventListener('dragstart', e=> e.dataTransfer.setData('text/plain', key));
+          leftCol.appendChild(item);
+        });
+        const rightCol = document.createElement('div'); rightCol.innerHTML = '<h4>Associações (arraste o item ao bloco correspondente)</h4>';
+        q._right.forEach(val=>{
+          const drop = document.createElement('div'); drop.className='dnd-area'; drop.dataset.value = val;
+          drop.innerHTML = `<div style="font-size:13px" class="muted">${val}</div>`;
+          // drop handlers
+          drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.style.borderColor='#a9ddff'; });
+          drop.addEventListener('dragleave', e=>{ drop.style.borderColor=''; });
+          drop.addEventListener('drop', e=>{
+            e.preventDefault(); drop.style.borderColor='';
+            const leftKey = e.dataTransfer.getData('text/plain');
+            drop.innerHTML = `<div style="padding:6px;border-radius:6px;background:#fff;border:1px solid #e6e9ef">${leftKey}</div><div style="font-size:12px;margin-top:6px;color:var(--muted)">(${drop.dataset.value})</div>`;
+            answers[idx] = answers[idx] || {};
+            answers[idx][leftKey] = drop.dataset.value;
+          });
+          rightCol.appendChild(drop);
+        });
+        container.appendChild(leftCol); container.appendChild(rightCol);
+        wrapper.appendChild(container);
+      }
+      // CALC
+      else if(q.type === 'calc'){
+        const inp = document.createElement('input'); inp.type='number'; inp.style.padding='8px'; inp.style.borderRadius='8px'; inp.style.border='1px solid #e6e9ef'; inp.style.marginTop='8px';
+        if(answers[idx] !== null) inp.value = answers[idx];
+        inp.oninput = ()=> answers[idx] = inp.value ? Number(inp.value) : null;
+        wrapper.appendChild(inp);
+      }
+
+      quizForm.appendChild(wrapper);
+      document.getElementById('prevQ').style.display = idx===0 ? 'none' : 'inline-block';
+      document.getElementById('nextQ').style.display = idx===sessionQuestions.length-1 ? 'none' : 'inline-block';
+      const pct = Math.round(((idx)/sessionQuestions.length)*100);
+      progressBar.style.width = pct + '%';
+    }
+
+    // navigation
+    document.getElementById('prevQ').onclick = ()=> { renderQuestion(Math.max(0,currentIdx-1)); }
+    document.getElementById('nextQ').onclick = ()=> { renderQuestion(Math.min(sessionQuestions.length-1,currentIdx+1)); }
+
+    // start button: draws questions anew each click (option 1)
+    document.getElementById('startBtn').onclick = ()=>{
+      // draw random 15 from bank
+      drawQuestions();
+      const name = document.getElementById('studentName').value.trim();
+      if(!name) { if(!confirm('Você não colocou seu nome. Deseja continuar sem nome?')) return; }
+      reading.style.display='block';
+      quizSection.style.display='block';
+      document.getElementById('startBtn').disabled = true;
+      renderQuestion(0);
+      startTimer();
+    };
+
+    // timer
+    function startTimer(){
+      if(timerInterval) clearInterval(timerInterval);
+      timerSec = 20*60;
+      timerDisplay.innerText = formatTime(timerSec);
+      timerInterval = setInterval(()=>{
+        timerSec--;
+        if(timerSec <= 0){ clearInterval(timerInterval); autoSubmit(); return; }
+        timerDisplay.innerText = formatTime(timerSec);
+      },1000);
+    }
+    function formatTime(s){ const mm = Math.floor(s/60).toString().padStart(2,'0'); const ss = (s%60).toString().padStart(2,'0'); return `${mm}:${ss}`; }
+
+    // grading
+    function grade(){
+      let score = 0;
+      const feedback = [];
+      sessionQuestions.forEach((q,i)=>{
+        let correct=false;
+        if(q.type==='mcq'){
+          const user = answers[i];
+          correct = (user === q.correct);
+        } else if(q.type==='match'){
+          const got = answers[i] || {};
+          correct = true;
+          for(const left in q.pairs){
+            if(!got[left] || got[left] !== q.pairs[left]) { correct=false; break; }
+          }
+        } else if(q.type==='calc'){
+          correct = (answers[i] === q.answer);
+        }
+        if(correct) score++;
+        feedback.push({index:i, correct, explanation: q.explanation || (q.type==='match' ? 'Verifique correspondências.' : '')});
+      });
+      return {score, feedback};
+    }
+
+    function showResult(res){
+      document.getElementById('scoreText').innerText = `Você acertou ${res.score} de ${sessionQuestions.length} perguntas.`;
+      const pct = Math.round((res.score/sessionQuestions.length)*100);
+      const medalWrap = document.getElementById('medalWrap');
+      medalWrap.innerHTML = '';
+      if(pct >= 90) medalWrap.innerHTML = '<span class="medal gold">Ouro</span>';
+      else if(pct >= 70) medalWrap.innerHTML = '<span class="medal silver">Prata</span>';
+      else medalWrap.innerHTML = '<span class="medal bronze">Bronze</span>';
+
+      const det = document.getElementById('detailedFeedback');
+      det.innerHTML = '<h4>Feedback por questão</h4>';
+      res.feedback.forEach(f=>{
+        const q = sessionQuestions[f.index];
+        const div = document.createElement('div'); div.style.padding='8px'; div.style.borderBottom='1px solid #f1f5f9';
+        let userAns = answers[f.index];
+        if(q.type === 'mcq') userAns = userAns || 'Sem resposta';
+        if(q.type === 'match') userAns = JSON.stringify(answers[f.index] || {});
+        if(q.type === 'calc') userAns = (answers[f.index] === null ? 'Sem resposta' : answers[f.index]);
+        const correctText = (q.type==='mcq') ? q.correct : (q.type==='calc' ? q.answer : JSON.stringify(q.pairs));
+        div.innerHTML = `<strong>Q${f.index+1}:</strong> ${q.q} <br>
+                         <span style="color:${f.correct? 'var(--success)':'var(--danger)'}">${f.correct? 'Correto':'Incorreto'}</span>
+                         <div style="font-size:13px;color:var(--muted);margin-top:6px"><strong>Sua resposta:</strong> ${userAns} <br><strong>Resposta esperada:</strong> ${correctText}
+                         <div style="margin-top:6px">${f.explanation || ''}</div></div>`;
+        det.appendChild(div);
+      });
+      resultSection.style.display='block';
+      progressBar.style.width = '100%';
+      resultSection.scrollIntoView({behavior:'smooth'});
+    }
+
+    document.getElementById('submitBtn').onclick = (e)=>{
+      e.preventDefault();
+      clearInterval(timerInterval);
+      const res = grade();
+      showResult(res);
+    };
+
+    function autoSubmit(){
+      alert('Tempo esgotado — suas respostas foram enviadas automaticamente.');
+      const res = grade();
+      showResult(res);
+    }
+
+    // PDF export (exports main content)
+    document.getElementById('exportPdfBtn').onclick = ()=>{
+      const name = (document.getElementById('studentName').value.trim() || 'SemNome').replace(/\s+/g,'_');
+      const element = document.querySelector('main');
+      const opt = { margin: 0.4, filename: `resultado_modais_${name}.pdf`, image:{type:'jpeg',quality:0.95}, html2canvas:{scale:2}, jsPDF:{unit:'in',format:'a4',orientation:'portrait'} };
+      html2pdf().set(opt).from(element).save();
+    };
+
+    // Initialize basic UI (no drawn questions until Start)
+    (function initUI(){ progressBar.style.width = '0%'; })();
+  </script>
+</body>
+</html>
+
